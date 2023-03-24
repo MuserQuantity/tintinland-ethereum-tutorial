@@ -1,0 +1,7 @@
+{
+    "method_name": "mintTo",
+    "params": {
+        "to": "0x2D730Bb797A43C92118b36EfD34788C45Fac398d",
+        "amount": 1000000000000000000
+    }
+}
