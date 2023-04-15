@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.45.2",
+    "@truffle/hdwallet-provider": "^2.1.9",
+    "@darienmh/truffle-plugin-abigen": "^0.0.3",
+    "@openzeppelin/contracts": "^4.8.2",
+    "solc":"^0.8.4"
+  },
+  "scripts": {
+    "compile": "truffle compile --all && truffle run abigen"
+  }
+}
