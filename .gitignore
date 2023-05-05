@@ -7,6 +7,7 @@ course5/crowd-funding/node_modules
 course5/node_modules
 course5/output
 course6/examples/test-nextjs/node_modules
+course6/examples/test-nextjs/.next
 course6/truffle/node_modules
 course6/.cache
 course6/.config
