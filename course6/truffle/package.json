@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "@darienmh/truffle-plugin-abigen": "^0.0.3",
+    "@truffle/hdwallet-provider": "^2.1.10"
+  }
+}
