@@ -1,19 +1,32 @@
-import Link from "next/link";
-import { Input, Button, TabList, Tab, Form } from "@web3uikit/core";
+import { Input, Button, TabList, Tab, Form, Information } from "@web3uikit/core";
 import abi from '../../../truffle/output/abi/MyToken.json'
-// import { ethers } from 'ethers';
 import Web3 from 'web3';
-// import { Web3Provider } from '@ethersproject/providers';
+import { createRoot } from 'react-dom/client';
 
-// 1. 配置连接信息
-// const provider = new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/<your-project-id>');
-// const signer = new ethers.Wallet('<your-private-key>', provider);
+let web3: any;
+let contract: any;
+let accounts: any;
+
+// 1. 钱包检查
+function checkMetaMask() {
+    // 检查MetaMask是否安装
+    if (window.ethereum) {
+        if (!web3) {
+            web3 = new Web3(window.ethereum as any);
+        }
+        if (!contract) {
+            contract = new web3.eth.Contract(contractABI as any, contractAddress);
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
 
 // 2. 获取合约实例
 const contractAddress = '0x9437464116B3E2D3b918095d63983861c471EC59';
 const contractABI = abi;
-let web3;
-// console.log(typeof(contractABI));
+
 // 3. 调用合约方法
 async function mint(_address: any, _amount: any) {
     // 检查MetaMask是否安装
@@ -69,7 +82,7 @@ async function burn(_amount: any) {
     // 检查MetaMask是否安装
     if (window.ethereum) {
         web3 = new Web3(window.ethereum as any);
-        let accounts = await web3.eth.getAccounts();
+        accounts = await web3.eth.getAccounts();
         console.log(accounts);
         let sender = accounts[0];
         const contract = new web3.eth.Contract(contractABI as any, contractAddress);
@@ -99,8 +112,6 @@ async function burn(_amount: any) {
                     a.textContent = "交易地址：" + txHash;
                 }
             }
-            // console.log(result);
-            // location.reload();
         }).catch((err: any) => {
             console.log(err);
             location.reload();
@@ -111,7 +122,33 @@ async function burn(_amount: any) {
     }
 }
 
+async function totalSupply() {
+    // 检查MetaMask是否安装
+    if (checkMetaMask()) {
+        const tx = contract.methods.totalSupply();
+        const totalSupply = await tx.call().catch((err: any) => {
+            console.log(err);
+        });
+        return totalSupply;
+    } else {
+        console.log('请安装MetaMask!');
+        alert('请安装MetaMask!');
+    }
+}
 
+async function balanceOf(_address: any) {
+    // 检查MetaMask是否安装
+    if (checkMetaMask()) {
+        const tx = contract.methods.balanceOf(_address);
+        const balance = await tx.call().catch((err: any) => {
+            console.log(err);
+        });
+        return balance;
+    } else {
+        console.log('请安装MetaMask!');
+        alert('请安装MetaMask!');
+    }
+}
 
 // console.log(abi);
 
@@ -177,7 +214,7 @@ export default function Dapp() {
                                     let amount = Number(from.data[1].inputResult);
                                     await mint(address, amount);
                                 }}
-                                title="增发代币"
+                                title="mint"
                             />
                         </div>
                     </Tab>
@@ -213,7 +250,82 @@ export default function Dapp() {
                                     let amount = Number(from.data[0].inputResult);
                                     await burn(amount);
                                 }}
-                                title="销毁代币"
+                                title="burn"
+                            />
+                        </div>
+                    </Tab>
+                    <Tab
+                        tabKey={3}
+                        tabName="发行量"
+                    >
+                        <div>
+                            <div id="totalSupply">
+                                <Information
+                                    id="totalSupplyInfo"
+                                    information=""
+                                    topic="结果"
+                                />
+                            </div>
+                            <SpacerH height={20} />
+                            <Button
+                                onClick={async function noRefCheck() {
+                                    const totalS = await totalSupply();
+                                    const container = document.getElementById('totalSupply');
+                                    createRoot(container!).render(
+                                        <Information
+                                            id="totalSupplyInfo"
+                                            information={totalS}
+                                            topic="totalSupply"
+                                        />);
+                                    console.log(totalS);
+                                    alert("成功！");
+                                }}
+                                text="查询"
+                                theme="outline"
+                            />
+                        </div>
+                    </Tab>
+                    <Tab
+                        tabKey={4}
+                        tabName="余额"
+                    >
+                        <div>
+                            <div id="balanceOf">
+                                <Information
+                                    id="balanceInfo"
+                                    information=""
+                                    topic="结果"
+                                />
+                            </div>
+                            <SpacerH height={20} />
+                            <Input
+                                label="钱包地址"
+                                name="balanceOfAddress"
+                                onBlur={function noRefCheck() { }}
+                                onChange={function noRefCheck() { }}
+                                validation={{
+                                    characterMaxLength: 42,
+                                    required: true
+                                }}
+                                value=''
+                            />
+                            <SpacerH height={20} />
+                            <Button
+                                onClick={async function noRefCheck() {
+                                    let address = (document.getElementsByName("balanceOfAddress")[0] as any).value;
+                                    let balance = await balanceOf(address);
+                                    const container = document.getElementById('balanceOf');
+                                    createRoot(container!).render(
+                                        <Information
+                                            id="balanceInfo"
+                                            information={balance}
+                                            topic="token余额"
+                                        />);
+                                    console.log(balance);
+                                    alert("成功！");
+                                }}
+                                text="查询"
+                                theme="outline"
                             />
                         </div>
                     </Tab>
