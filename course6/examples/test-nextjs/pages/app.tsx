@@ -1,7 +1,10 @@
-import { Input, Button, TabList, Tab, Form, Information } from "@web3uikit/core";
+import { Input, Button, TabList, Tab, Form, Information, Typography } from "@web3uikit/core";
 import abi from '../../../truffle/output/abi/MyToken.json'
 import Web3 from 'web3';
 import { createRoot } from 'react-dom/client';
+// import ReactDOM from 'react-dom';
+// import { createPortal } from 'react-dom';
+// import App from './test';
 
 let web3: any;
 let contract: any;
@@ -58,7 +61,7 @@ async function mint(_address: any, _amount: any) {
         }).then((tx: any) => {
             console.log(tx);
             if (tx) {
-                const a = document.getElementById("mintTx");
+                const a = document.getElementById("tx");
                 const txHash = tx.transactionHash;
                 console.log(tx);
                 if (a != null && a instanceof HTMLAnchorElement) {
@@ -104,7 +107,7 @@ async function burn(_amount: any) {
         }).then((tx: any) => {
             console.log(tx);
             if (tx) {
-                const a = document.getElementById("burnTx");
+                const a = document.getElementById("tx");
                 const txHash = tx.transactionHash;
                 console.log(tx);
                 if (a != null && a instanceof HTMLAnchorElement) {
@@ -174,9 +177,6 @@ export default function Dapp() {
                         tabName="增发"
                     >
                         <div>
-                            <a href="" id="mintTx"></a>
-                        </div>
-                        <div>
                             <Form id="mintForm"
                                 buttonConfig={{
                                     onClick: async function noRefCheck(e) {
@@ -223,9 +223,6 @@ export default function Dapp() {
                         tabName="销毁"
                     >
                         <div>
-                            <a href="" id="burnTx"></a>
-                        </div>
-                        <div>
                             <Form id="burnForm"
                                 buttonConfig={{
                                     onClick: function noRefCheck(e) { console.log(e); },
@@ -259,18 +256,19 @@ export default function Dapp() {
                         tabName="发行量"
                     >
                         <div>
-                            <div id="totalSupply">
+                            {/* <div id="totalSupply">
                                 <Information
                                     id="totalSupplyInfo"
                                     information=""
                                     topic="结果"
                                 />
-                            </div>
+                            </div> */}
                             <SpacerH height={20} />
                             <Button
                                 onClick={async function noRefCheck() {
                                     const totalS = await totalSupply();
-                                    const container = document.getElementById('totalSupply');
+                                    // const container = document.getElementById('totalSupply');
+                                    const container = document.getElementById('result');
                                     createRoot(container!).render(
                                         <Information
                                             id="totalSupplyInfo"
@@ -290,13 +288,13 @@ export default function Dapp() {
                         tabName="余额"
                     >
                         <div>
-                            <div id="balanceOf">
+                            {/* <div id="balanceOf">
                                 <Information
                                     id="balanceInfo"
                                     information=""
                                     topic="结果"
                                 />
-                            </div>
+                            </div> */}
                             <SpacerH height={20} />
                             <Input
                                 label="钱包地址"
@@ -314,7 +312,7 @@ export default function Dapp() {
                                 onClick={async function noRefCheck() {
                                     let address = (document.getElementsByName("balanceOfAddress")[0] as any).value;
                                     let balance = await balanceOf(address);
-                                    const container = document.getElementById('balanceOf');
+                                    const container = document.getElementById('result');
                                     createRoot(container!).render(
                                         <Information
                                             id="balanceInfo"
@@ -330,6 +328,18 @@ export default function Dapp() {
                         </div>
                     </Tab>
                 </TabList>
+                <div>
+                    <Typography
+                        onCopy={function noRefCheck() { }}
+                        variant="H1"
+                    >
+                        调用结果历史：
+                    </Typography>
+                    <div id="result"></div>
+                    <div>
+                        <a href="" id="tx"></a>
+                    </div>
+                </div>
             </div>
         </>
     );
