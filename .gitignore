@@ -13,4 +13,10 @@ course6/.cache
 course6/.config
 course6/.local
 course6/.npm
+course7/.npm
+course7/.config
+course7/.local
+course7/.cache
+course7/nextjs/erc20factory/node_modules
+course7/truffle/node_modules
 venv

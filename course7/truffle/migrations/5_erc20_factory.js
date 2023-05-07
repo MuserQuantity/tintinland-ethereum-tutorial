@@ -1,0 +1,5 @@
+var ERC20V3Factory = artifacts.require("ERC20V3Factory");
+
+module.exports = function(deployer) {
+  deployer.deploy(ERC20V3Factory,"0xF640B09B31b6Da8209e8cDc533DefD6f88Fe93B0","0x31894A8b985C6E0Bb81d52876B00Cd0B3EEc84D7","0x9ABdCF6CeA06609b63a2B75Be598C20326BeC120","0xB793467a714c7a2C175eBffD12900F12Ec414f3f",0);
+};

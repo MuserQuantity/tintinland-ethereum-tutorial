@@ -153,8 +153,6 @@ async function balanceOf(_address: any) {
     }
 }
 
-// console.log(abi);
-
 const SpacerW = ({ width }: { width: number }) => <div style={{ width }} />
 const SpacerH = ({ height }: { height: number }) => <div style={{ height }} />
 
