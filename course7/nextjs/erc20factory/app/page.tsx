@@ -1,3 +1,4 @@
+import styles from './page.module.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { getDefaultWallets, RainbowKitProvider, AvatarComponent } from '@rainbow-me/rainbowkit';
@@ -70,7 +71,7 @@ const wagmiClient = createClient({
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-24">
+    <main className={styles.main}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains} avatar={CustomAvatar} coolMode >
           <div style={{ margin: 'auto', width: '50%' }}>

@@ -179,7 +179,7 @@ async function createCustomMintableERC20(initSupply: any, name: any, symbol: any
 const SpacerW = ({ width }: { width: number }) => <div style={{ width }} />
 const SpacerH = ({ height }: { height: number }) => <div style={{ height }} />
 
-export default function Dapp() {
+export default function Dapp2() {
     return (
         <>
             <SpacerH height={20} />

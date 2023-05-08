@@ -6,6 +6,7 @@ import { sepolia, goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { Blockie } from '@web3uikit/web3';
 import Dapp from './app';
+// import Dapp2 from './app2';
 
 function generateColorFromAddress(address: string): string {
   // 把地址转成哈希值
@@ -77,6 +78,7 @@ const App = () => {
             <ConnectButton />
           </div>
           <Dapp />
+          {/* <Dapp2 /> */}
         </RainbowKitProvider>
       </WagmiConfig>
     </>
